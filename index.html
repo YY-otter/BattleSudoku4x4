@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>BattleSudoku4x4</title>
+	<link href="./style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <h1>Battle Sudoku 4x4</h1>
+	<table id="Board">
+		<tr>
+			<td id="Board-A1"></td>
+			<td id="Board-B1">I</td>
+			<td id="Board-C1">n</td>
+			<td id="Board-D1">i</td>
+		</tr>
+		<tr>
+			<td id="Board-A2">t</td>
+			<td id="Board-B2">i</td>
+			<td id="Board-C2"></td>
+			<td id="Board-D2">a</td>
+		</tr>
+		<tr>
+			<td id="Board-A3">l</td>
+			<td id="Board-B3"></td>
+			<td id="Board-C3">i</td>
+			<td id="Board-D3">z</td>
+		</tr>
+		<tr>
+			<td id="Board-A4">i</td>
+			<td id="Board-B4">n</td>
+			<td id="Board-C4">g</td>
+			<td id="Board-D4"></td>
+		</tr>
+	</table>
+    <p>Answer Pattern(s): <span id="PatternNum"><span></p>
+    <p><span id="SelectedPos">??</span> -> <span id="SelectedNum">?</span></p>
+    <p><button onclick='DetNum()'>OK</button> <button onclick='ResetSelect()'>Cancel</button></p>
+    <p><span id="ViewResult">...</span></p>
+    <p><button onclick='Initialize()'>Reset</button></p>
+    <script src="./script.js"></script>
+  </body>
+</html>

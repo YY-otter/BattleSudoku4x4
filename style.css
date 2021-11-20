@@ -1,0 +1,53 @@
+body {
+  font-family: serif;
+  text-align: center;
+  line-height: 2.5vh;
+}
+
+h1 {
+  font-size: 5vh;
+}
+
+p {
+  font-size: 3vh;
+}
+
+table#Board {
+  width: 50vh;
+  height: 50vh;
+  border-collapse: collapse;
+  border: thick solid;
+  font-size: 7vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table#Board td{
+  width: 25%;
+  height: 25%;
+  border: thin solid;
+  line-height: 0;
+}
+
+table#Board td[id^="Board-B"]{
+  border-right-width: medium;
+}
+
+table#Board td[id$="2"]{
+  border-bottom-width: medium;
+}
+
+td button {
+  width: 5vh;
+  height: 5vh;
+  font-family: serif;
+  font-size: 3vh;
+  text-align: center;
+}
+
+:not(td)>button {
+  padding: 1vh 2vh;
+  font-family: serif;
+  font-size: 3vh;
+  text-align: center;
+}
