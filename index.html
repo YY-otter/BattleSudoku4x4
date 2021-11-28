@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <h1>Battle Sudoku 4x4</h1>
+    <h1 id="TitleString">Battle Sudoku 4x4</h1>
     <table id="Board">
       <tr>
         <td id="Board-A1"></td>
@@ -40,7 +40,7 @@
     <p><span id="SelectedPos">??</span> -> <span id="SelectedNum">?</span></p>
     <p><button onclick='DetNum()'>OK</button> <button onclick='ResetSelect()'>Cancel</button></p>
     <p><span id="ViewResult">...</span></p>
-    <p><button onclick='Initialize()'>Reset</button></p>
+    <p><button onclick='ResetGame()'>Reset</button></p>
     <details><summary>Options</summary>
       <table id="options">
         <tr>
@@ -51,6 +51,7 @@
           <td>Play Mode:</td>
           <td><input type="radio" name="PlayMode" value="PvP" id="radio_PvP" checked><label for="radio_PvP">PvP</label><br>
           <input type="radio" name="PlayMode" value="COM(Easy)" id="radio_COM(Easy)"><label for="radio_COM(Easy)">COM(Easy)</label><br>
+          <input type="radio" name="PlayMode" value="COM(Normal)" id="radio_COM(Normal)"><label for="radio_COM(Normal)">COM(Normal)</label><br>
           <input type="radio" name="PlayMode" value="COM(Hard)" id="radio_COM(Hard)"><label for="radio_COM(Hard)">COM(Hard)</label></td>
         </tr>
       </table>
