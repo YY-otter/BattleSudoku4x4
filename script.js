@@ -317,13 +317,23 @@ let PlayFlag = true;
 
 let RowNum = -1;
 let ColumnCha = -1;
-let SelectNum = 0;
+let SelectedNum = 0;
+let DevilNum = 0;
 
 const SelectedPosDoc = document.getElementById('SelectedPos');
 const SelectedNumDoc = document.getElementById('SelectedNum');
 const ViewResultDoc = document.getElementById('ViewResult');
+const ViewAnswerPatternDoc = document.getElementById('ViewAnswerPattern');
+const PlayModeRowDoc = document.getElementById('PlayModeRow');
+const PlayModeDoc = document.getElementsByName('PlayMode');
+let PlayModeValue;
+
+let ViewAnswerPatternFlag = true;
+let ComBattleFlag = false;
 
 window.onload = function () {
+  ViewAnswerPatternDoc.checked = true;
+  PlayModeDoc[0].checked = true;
   Initialize();
 }
 
@@ -332,7 +342,7 @@ function Initialize() {
 
   for (m = 0; m < 4; m++) {
     for (n = 0; n < 4; n++) {
-      BoardCells[m][n].innerHTML = "<button onclick='NumSelect(" + m + ", " + n + ", 1)'>1</button><button onclick='NumSelect(" + m + ", " + n + ", 2)'>2</button><br><button onclick='NumSelect(" + m + ", " + n + ", 3)'>3</button><button onclick='NumSelect(" + m + ", " + n + ", 4)'>4</button>";
+      BoardCells[m][n].innerHTML = "<button onclick='SelectNum(" + m + ", " + n + ", 1)'>1</button><button onclick='SelectNum(" + m + ", " + n + ", 2)'>2</button><br><button onclick='SelectNum(" + m + ", " + n + ", 3)'>3</button><button onclick='SelectNum(" + m + ", " + n + ", 4)'>4</button>";
     }
   }
 
@@ -341,35 +351,119 @@ function Initialize() {
   for (m = 0; m < MaxAnswerPattern; m++) {
     AnswerPatternFlag[m] = true;
   }
-  
+
+  ChangePatternNum();
   PatternNumDoc.style.color = "#000";
   ViewResultDoc.innerHTML = "..."
   ViewResultDoc.style.color = "#000";
   PlayFlag = true;
 
+  for(let Num in PlayModeDoc){
+    if(PlayModeDoc[Num].checked){
+      PlayModeValue = PlayModeDoc[Num].value;
+      break;
+    }
+  }
+
+  if(PlayModeValue == "PvP"){
+    ComBattleFlag = false;
+  }
+  else if(PlayModeValue.includes('COM')){
+    ComBattleFlag = true;
+  }
+
+  if (ComBattleFlag) {
+    ViewResultDoc.innerHTML = "YOUR TURN"
+  }
+  else {
+    ViewResultDoc.innerHTML = "..."
+  }
+
   ResetSelect();
+  DevilNum = 0;
 }
 
-function NumSelect(m, n, num) {
-  if(PlayFlag){
-    RowNum = m;
-    ColumnCha = n;
-    SelectNum = num;
+function SelectNum(M, N, Num) {
+  if (PlayFlag) {
+    RowNum = M;
+    ColumnCha = N;
+    SelectedNum = Num;
 
     ChangeSelectedText();
+  }
+}
+
+function DetNum() {
+  if (SelectedNum === 0 || !(PlayFlag)) { }
+  else {
+    BoardCells[RowNum][ColumnCha].innerHTML = SelectedNum;
+    DevilNum++;
+
+    for (m = 0; m < MaxAnswerPattern; m++) {
+      if (AnswerPatternFlag[m] && !(AllAnswers[m][RowNum][ColumnCha] === SelectedNum)) {
+        AnswerPatternFlag[m] = false;
+        TotalAnswerPattern--;
+      }
+    }
+
+    ChangePatternNum();
+    ResetSelect();
+
+    if (ComBattleFlag && PlayFlag) {
+      ThinkNumByCom();
+    }
+  }
+}
+
+function ChangePatternNum() {
+  if (ViewAnswerPatternFlag || TotalAnswerPattern <= 1) {
+    PatternNumDoc.innerHTML = TotalAnswerPattern;
+  }
+  else {
+    PatternNumDoc.innerHTML = "??";
+  }
+
+  JudgeGameEnd();
+}
+
+function JudgeGameEnd() {
+  if (TotalAnswerPattern <= 1) {
+    if (TotalAnswerPattern === 1) {
+      PatternNumDoc.style.color = "#c00";
+      
+      if(PlayFlag){
+        ViewResultDoc.innerHTML = "YOU WIN!!!"
+        ViewResultDoc.style.color = "#c00";
+      }
+      else{
+        ViewResultDoc.innerHTML = "YOU LOSE..."
+        ViewResultDoc.style.color = "#00c";
+      }
+
+      if (DevilNum === 13) {
+        PlayModeRowDoc.style.display = "";
+      }
+    }
+    else if (TotalAnswerPattern === 0) {
+      PatternNumDoc.style.color = "#00c";
+      ViewResultDoc.innerHTML = "YOU LOSE..."
+      ViewResultDoc.style.color = "#00c";
+    }
+
+    PlayFlag = false;
   }
 }
 
 function ResetSelect() {
   RowNum = -1;
   ColumnCha = -1;
-  SelectNum = 0;
+  SelectedNum = 0;
 
   ChangeSelectedText();
 }
 
 function ChangeSelectedText() {
-  if (SelectNum === 0) {
+  if (SelectedNum === 0) {
     SelectedPosDoc.innerHTML = "??";
     SelectedNumDoc.innerHTML = "?";
   }
@@ -388,36 +482,72 @@ function ChangeSelectedText() {
         SelectedPosDoc.innerHTML = "D" + (RowNum + 1);
         break;
     }
-    SelectedNumDoc.innerHTML = SelectNum;
+    SelectedNumDoc.innerHTML = SelectedNum;
   }
 }
 
-function DetNum() {
-  if (SelectNum === 0 || !(PlayFlag)) {}
-  else{
-    BoardCells[RowNum][ColumnCha].innerHTML = SelectNum;
+function ViewAnswerPattern(Flag) {
+  ViewAnswerPatternFlag = Flag;
+  ChangePatternNum();
+}
 
-    for (m = 0; m < MaxAnswerPattern; m++) {
-      if (AnswerPatternFlag[m] && !(AllAnswers[m][RowNum][ColumnCha] === SelectNum)) {
-        AnswerPatternFlag[m] = false;
-        TotalAnswerPattern--;
+let WaitForThinkNumByCom;
+let MomentPlayFlag;
+
+function ThinkNumByCom() {
+  WaitForThinkNumByCom = setInterval('DetNumByCom();', 1000);
+
+  PlayFlag = false;
+  MomentPlayFlag = false;
+  ViewResultDoc.innerHTML = "COM'S TURN"
+
+  let BetaRowNum;
+  let BetaColumnCha;
+  let BetaSelectedNum;
+  let BetaTotalAnswerPattern;
+  let BetaAnswerPatternFlag = [];
+
+  while(true){
+    BetaRowNum = Math.floor(Math.random() * 4);
+    BetaColumnCha = Math.floor(Math.random() * 4);
+    BetaSelectedNum = Math.floor(Math.random() * 4 + 1);
+    BetaTotalAnswerPattern = TotalAnswerPattern;
+    BetaAnswerPatternFlag = AnswerPatternFlag.slice();
+
+    if(isNaN(BoardCells[BetaRowNum][BetaColumnCha].innerHTML)){
+      for (m = 0; m < MaxAnswerPattern; m++) {
+        if (BetaAnswerPatternFlag[m] && !(AllAnswers[m][BetaRowNum][BetaColumnCha] === BetaSelectedNum)) {
+          BetaAnswerPatternFlag[m] = false;
+          BetaTotalAnswerPattern--;
+        }
+      }
+
+      if(BetaTotalAnswerPattern !== 0 && !(PlayModeValue == "COM(Hard)" && BetaTotalAnswerPattern === TotalAnswerPattern)){
+        MomentPlayFlag = true;
+
+        RowNum = BetaRowNum;
+        ColumnCha = BetaColumnCha;
+        SelectedNum = BetaSelectedNum;
+        TotalAnswerPattern = BetaTotalAnswerPattern;
+        AnswerPatternFlag = BetaAnswerPatternFlag;
+        
+        break;
       }
     }
-    PatternNumDoc.innerHTML = TotalAnswerPattern;
+  }
+}
 
-    if(TotalAnswerPattern === 1){
-      PatternNumDoc.style.color = "#c00";
-      ViewResultDoc.innerHTML = "YOU WIN!!!"
-      ViewResultDoc.style.color = "#c00";
-      PlayFlag = false;
-    }
-    else if(TotalAnswerPattern === 0){
-      PatternNumDoc.style.color = "#00c";
-      ViewResultDoc.innerHTML = "YOU LOSE..."
-      ViewResultDoc.style.color = "#00c";
-      PlayFlag = false;
-    }
+function DetNumByCom() {
+  if(MomentPlayFlag){
+    clearInterval(WaitForThinkNumByCom);
+    ChangePatternNum();
+    
+    BoardCells[RowNum][ColumnCha].innerHTML = SelectedNum;
+    DevilNum++;
 
-    ResetSelect();
+    if(TotalAnswerPattern > 1){
+      ViewResultDoc.innerHTML = "YOUR TURN"
+      PlayFlag = true;
+    }
   }
 }

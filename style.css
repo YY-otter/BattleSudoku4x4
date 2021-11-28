@@ -2,14 +2,15 @@ body {
   font-family: serif;
   text-align: center;
   line-height: 2.5vh;
+  font-size: 3vh;
 }
 
 h1 {
   font-size: 5vh;
 }
 
-p {
-  font-size: 3vh;
+table {
+  margin: 2vh auto;
 }
 
 table#Board {
@@ -18,8 +19,6 @@ table#Board {
   border-collapse: collapse;
   border: thick solid;
   font-size: 7vh;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 table#Board td{
@@ -50,4 +49,16 @@ td button {
   font-family: serif;
   font-size: 3vh;
   text-align: center;
+}
+
+table#options {
+  line-height: 1.25em;
+}
+
+table#options tr td:first-child {
+  text-align: right;
+}
+
+table#options tr td:last-child {
+  text-align: left;
 }
