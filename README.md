@@ -22,10 +22,13 @@ This game will be updated.
 YY-otter
 
 # Update History
-v0.2.1 (2021-11-29T00:39+09:00)<br>
-- Add "View 'Answer pattern(s)' number" option.
-- Add Easter egg.
-- Fixed minor bugs.
+v0.2.1 (2021-11-29T06:51+09:00)
+- Minor adjustments
 
-v0.1.0 (2021-11-21T04:09+09:00)<br>
+v0.2.1 (2021-11-29T00:39+09:00)
+- Add "View 'Answer pattern(s)' number" option
+- Add Easter egg
+- Fixed minor bugs
+
+v0.1.0 (2021-11-21T04:09+09:00)
 - Initial commit
