@@ -336,7 +336,7 @@ let ComBattleFlag = false;
 window.onload = function () {
   ViewAnswerPatternDoc.checked = true;
   PlayModeDoc[0].checked = true;
-  PlayModeRowDoc.style.display = "";
+  PlayModeRowDoc.style.display = "none";
   Initialize();
 }
 
