@@ -5,8 +5,6 @@ Please access this URL and play it.<br>
 https://yy-otter.github.io/BattleSudoku4x4/
  
 # How to Play
-Players: more than 2
-
 1. Select number to put in the cell.
 2. Press "OK" button.
 3. Number of answer patterns is reduced (or remains the same).
@@ -22,7 +20,10 @@ This game will be updated.
 YY-otter
 
 # Update History
-v0.2.1 (2021-11-29T06:51+09:00)
+v0.2.3 (2021-11-29T??:??+09:00)
+- Minor adjustments
+
+v0.2.2 (2021-11-29T06:51+09:00)
 - Minor adjustments
 
 v0.2.1 (2021-11-29T00:39+09:00)
