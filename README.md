@@ -20,8 +20,9 @@ This game will be updated.
 YY-otter
 
 # Update History
-v0.2.3 (2021-11-29T??:??+09:00)
+v0.2.5 (2021-11-29T15:15+09:00)
 - Minor adjustments
+- Fixed minor bugs
 
 v0.2.2 (2021-11-29T06:51+09:00)
 - Minor adjustments
