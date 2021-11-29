@@ -287,7 +287,7 @@ const AllAnswers = [
   [[4, 3, 2, 1], [1, 2, 3, 4], [3, 1, 4, 2], [2, 4, 1, 3]],
   [[4, 3, 2, 1], [1, 2, 3, 4], [2, 4, 1, 3], [3, 1, 4, 2]],
   [[4, 3, 2, 1], [1, 2, 3, 4], [2, 1, 4, 3], [3, 4, 1, 2]]
-]
+];
 
 let BoardCells = [
   [document.getElementById('Board-A1'),
@@ -336,7 +336,7 @@ let ComBattleFlag = false;
 window.onload = function () {
   ViewAnswerPatternDoc.checked = true;
   PlayModeDoc[0].checked = true;
-  PlayModeRowDoc.style.display = "none";
+  PlayModeRowDoc.style.display = "";
   Initialize();
 }
 
@@ -346,23 +346,21 @@ function ResetGame() {
 }
 
 function Initialize() {
-  let m, n;
-
-  for (m = 0; m < 4; m++) {
-    for (n = 0; n < 4; n++) {
+  for (let m = 0; m < 4; m++) {
+    for (let n = 0; n < 4; n++) {
       BoardCells[m][n].innerHTML = "<button onclick='SelectNum(" + m + ", " + n + ", 1)'>1</button><button onclick='SelectNum(" + m + ", " + n + ", 2)'>2</button><br><button onclick='SelectNum(" + m + ", " + n + ", 3)'>3</button><button onclick='SelectNum(" + m + ", " + n + ", 4)'>4</button>";
     }
   }
 
   TotalAnswerPattern = MaxAnswerPattern;
   PatternNumDoc.innerHTML = TotalAnswerPattern;
-  for (m = 0; m < MaxAnswerPattern; m++) {
+  for (let m = 0; m < MaxAnswerPattern; m++) {
     AnswerPatternFlag[m] = true;
   }
 
   ChangePatternNum();
   PatternNumDoc.style.color = "#000";
-  ViewResultDoc.innerHTML = "..."
+  ViewResultDoc.innerHTML = "...";
   ViewResultDoc.style.color = "#000";
   PlayFlag = true;
 
@@ -375,11 +373,11 @@ function Initialize() {
 
   if (PlayModeValue == "PvP") {
     ComBattleFlag = false;
-    ViewResultDoc.innerHTML = "..."
+    ViewResultDoc.innerHTML = "...";
   }
   else if (PlayModeValue.includes('COM')) {
     ComBattleFlag = true;
-    ViewResultDoc.innerHTML = "YOUR TURN"
+    ViewResultDoc.innerHTML = "YOUR TURN";
   }
 
   ResetSelect();
@@ -402,7 +400,7 @@ function DetNum() {
     BoardCells[RowNum][ColumnCha].innerHTML = SelectedNum;
     DevilNum++;
 
-    for (m = 0; m < MaxAnswerPattern; m++) {
+    for (let m = 0; m < MaxAnswerPattern; m++) {
       if (AnswerPatternFlag[m] && !(AllAnswers[m][RowNum][ColumnCha] === SelectedNum)) {
         AnswerPatternFlag[m] = false;
         TotalAnswerPattern--;
@@ -433,26 +431,23 @@ function JudgeGameEnd() {
   if (TotalAnswerPattern <= 1) {
     if (TotalAnswerPattern === 1) {
       PatternNumDoc.style.color = "#c00";
+    }
+    else {
+      PatternNumDoc.style.color = "#00c";
+    }
 
-      if (PlayFlag) {
-        ViewResultDoc.innerHTML = "YOU WIN!!!"
-        ViewResultDoc.style.color = "#c00";
-        if (PlayModeValue == "COM(Hard)") {
-          TitleStringDoc.style.color = "#c00";
-        }
+    if (Math.abs(TotalAnswerPattern - PlayFlag) === 0) {
+      ViewResultDoc.innerHTML = "YOU WIN!!!";
+      ViewResultDoc.style.color = "#c00";
+      if (PlayModeValue == "COM(Hard)") {
+        TitleStringDoc.style.color = "#c00";
       }
-      else {
-        ViewResultDoc.innerHTML = "YOU LOSE..."
-        ViewResultDoc.style.color = "#00c";
-      }
-
       if (DevilNum === 13) {
         PlayModeRowDoc.style.display = "";
       }
     }
-    else if (TotalAnswerPattern === 0) {
-      PatternNumDoc.style.color = "#00c";
-      ViewResultDoc.innerHTML = "YOU LOSE..."
+    else {
+      ViewResultDoc.innerHTML = "YOU LOSE...";
       ViewResultDoc.style.color = "#00c";
     }
 
@@ -507,7 +502,7 @@ function ThinkNumByCom() {
 
   PlayFlag = false;
   DetNumByComFlag = false;
-  ViewResultDoc.innerHTML = "COM'S TURN"
+  ViewResultDoc.innerHTML = "COM'S TURN";
 
   let BetaRowNum;
   let BetaColumnCha;
@@ -515,7 +510,7 @@ function ThinkNumByCom() {
   let BetaTotalAnswerPattern;
   let BetaAnswerPatternFlag = [];
 
-  let HardCounter = 0;
+  let JudgeCounter;
 
   while (!(DetNumByComFlag)) {
     BetaRowNum = Math.floor(Math.random() * 4);
@@ -523,6 +518,7 @@ function ThinkNumByCom() {
     BetaSelectedNum = Math.floor(Math.random() * 4 + 1);
     BetaTotalAnswerPattern = TotalAnswerPattern;
     BetaAnswerPatternFlag = AnswerPatternFlag.slice();
+    JudgeCounter = 0;
 
     if (isNaN(BoardCells[BetaRowNum][BetaColumnCha].innerHTML)) {
       for (m = 0; m < MaxAnswerPattern; m++) {
@@ -534,7 +530,12 @@ function ThinkNumByCom() {
 
       switch (PlayModeValue) {
         case "COM(Easy)":
-          if (BetaTotalAnswerPattern !== 0) {
+          for (let m = 0; m < 4; m++) {
+            if (BoardCells[m][BetaColumnCha].innerHTML == BetaSelectedNum || BoardCells[BetaRowNum][m].innerHTML == BetaSelectedNum) {
+              JudgeCounter++;
+            }
+          }
+          if (JudgeCounter === 0) {
             DetNumByComFlag = true;
           }
           break;
@@ -545,19 +546,19 @@ function ThinkNumByCom() {
           break;
         case "COM(Hard)":
           if (BetaTotalAnswerPattern === 2 || BetaTotalAnswerPattern === 3) {
-            if (HardCounter >= 25) {
+            if (JudgeCounter >= 25) {
               DetNumByComFlag = true;
             }
             else {
-              HardCounter++;
+              JudgeCounter++;
             }
           }
           else if (BetaTotalAnswerPattern === TotalAnswerPattern) {
-            if (HardCounter >= 15) {
+            if (JudgeCounter >= 15) {
               DetNumByComFlag = true;
             }
             else {
-              HardCounter++;
+              JudgeCounter++;
             }
           }
           else if (BetaTotalAnswerPattern !== 0) {
@@ -584,7 +585,7 @@ function DetNumByCom() {
     DevilNum++;
 
     if (TotalAnswerPattern > 1) {
-      ViewResultDoc.innerHTML = "YOUR TURN"
+      ViewResultDoc.innerHTML = "YOUR TURN";
       PlayFlag = true;
     }
   }
