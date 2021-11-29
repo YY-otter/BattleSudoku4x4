@@ -535,6 +535,9 @@ function ThinkNumByCom() {
               JudgeCounter++;
             }
           }
+          if (BoardCells[BetaRowNum + 1 - BetaRowNum % 2 * 2][BetaColumnCha + 1 - BetaColumnCha % 2 * 2].innerHTML == BetaSelectedNum) {
+            JudgeCounter++;
+          }
           if (JudgeCounter === 0) {
             DetNumByComFlag = true;
           }
