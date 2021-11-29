@@ -587,6 +587,7 @@ function DetNumByCom() {
     if (TotalAnswerPattern > 1) {
       ViewResultDoc.innerHTML = "YOUR TURN";
       PlayFlag = true;
+      ResetSelect();
     }
   }
 }
