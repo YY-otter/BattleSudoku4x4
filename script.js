@@ -510,7 +510,7 @@ function ThinkNumByCom() {
   let BetaTotalAnswerPattern;
   let BetaAnswerPatternFlag = [];
 
-  let JudgeCounter;
+  let JudgeCounter = 0;
 
   while (!(DetNumByComFlag)) {
     BetaRowNum = Math.floor(Math.random() * 4);
@@ -518,7 +518,6 @@ function ThinkNumByCom() {
     BetaSelectedNum = Math.floor(Math.random() * 4 + 1);
     BetaTotalAnswerPattern = TotalAnswerPattern;
     BetaAnswerPatternFlag = AnswerPatternFlag.slice();
-    JudgeCounter = 0;
 
     if (isNaN(BoardCells[BetaRowNum][BetaColumnCha].innerHTML)) {
       for (m = 0; m < MaxAnswerPattern; m++) {
@@ -530,6 +529,7 @@ function ThinkNumByCom() {
 
       switch (PlayModeValue) {
         case "COM(Easy)":
+          JudgeCounter = 0;
           for (let m = 0; m < 4; m++) {
             if (BoardCells[m][BetaColumnCha].innerHTML == BetaSelectedNum || BoardCells[BetaRowNum][m].innerHTML == BetaSelectedNum) {
               JudgeCounter++;
