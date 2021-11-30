@@ -20,6 +20,9 @@ This game will be updated.
 YY-otter
 
 # Update History
+v0.2.8 (2021-11-30T16:28+09:00)
+- Add shortcut to access Easter egg
+
 v0.2.7 (2021-11-30T04:44+09:00)
 - Minor adjustments
 - Fixed minor bugs
