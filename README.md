@@ -20,7 +20,10 @@ This game will be updated.
 YY-otter
 
 # Update History
-v0.2.8 (2021-12-02T04:07+09:00)
+v0.3.1 (2021-12-02T04:18+09:00)
+- Minor adjustments
+
+v0.3.0 (2021-12-02T04:07+09:00)
 - Add favicon
 
 v0.2.8 (2021-11-30T16:28+09:00)
