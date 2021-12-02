@@ -564,7 +564,7 @@ function ThinkNumByCom() {
           break;
         case "COM(Hard)":
           if (BetaTotalAnswerPattern === 2 || BetaTotalAnswerPattern === 3) {
-            if (JudgeCounter >= 25) {
+            if (JudgeCounter >= 150) {
               DetNumByComFlag = true;
             }
             else {
@@ -572,7 +572,7 @@ function ThinkNumByCom() {
             }
           }
           else if (BetaTotalAnswerPattern === TotalAnswerPattern) {
-            if (JudgeCounter >= 15) {
+            if (JudgeCounter >= 75) {
               DetNumByComFlag = true;
             }
             else {
