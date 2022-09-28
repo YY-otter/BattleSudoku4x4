@@ -411,7 +411,7 @@ function Initialize() {
   ResetSelect();
   DevilNum = 0;
 
-  if (PlayTurnValue.includes('Second')) {
+  if (PlayModeValue.includes('COM') && PlayTurnValue.includes('Second')) {
     ThinkNumByCom();
   }
 }
