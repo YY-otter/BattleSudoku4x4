@@ -14,12 +14,18 @@ If you want to change number to put in the cell, you can press another number bu
 If you want to play another game, please press "Reset" button.
 
 # Note
-This game will be updated.
+This game **won't** be updated.
  
 # Author
 YY-otter
 
 # Update History
+v1.0.0 (2022-09-29T06:30+09:00)
+- Add option about Easter egg
+- Share shortcut URL to access Easter egg<br>
+https://yy-otter.github.io/BattleSudoku4x4?COM=1
+- **Stop updating**
+
 v0.3.2 (2021-12-03T02:08+09:00)
 - Minor adjustments
 

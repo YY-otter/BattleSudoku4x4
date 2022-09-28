@@ -338,7 +338,10 @@ const ViewResultDoc = document.getElementById('ViewResult');
 const ViewAnswerPatternDoc = document.getElementById('ViewAnswerPattern');
 const PlayModeRowDoc = document.getElementById('PlayModeRow');
 const PlayModeDoc = document.getElementsByName('PlayMode');
+const PlayTurnRowDoc = document.getElementById('PlayTurnRow');
+const PlayTurnDoc = document.getElementsByName('PlayTurn');
 let PlayModeValue;
+let PlayTurnValue;
 
 let ViewAnswerPatternFlag = true;
 let ComBattleFlag = false;
@@ -346,11 +349,14 @@ let ComBattleFlag = false;
 window.onload = function () {
   ViewAnswerPatternDoc.checked = true;
   PlayModeDoc[0].checked = true;
+  PlayTurnDoc[0].checked = true;
   if (getParam('COM')) {
     PlayModeRowDoc.style.display = "";
+    PlayTurnRowDoc.style.display = "";
   }
   else {
     PlayModeRowDoc.style.display = "none";
+    PlayTurnRowDoc.style.display = "none";
   }
   Initialize();
 }
@@ -386,6 +392,13 @@ function Initialize() {
     }
   }
 
+  for (let Num in PlayTurnDoc) {
+    if (PlayTurnDoc[Num].checked) {
+      PlayTurnValue = PlayTurnDoc[Num].value;
+      break;
+    }
+  }
+
   if (PlayModeValue == "PvP") {
     ComBattleFlag = false;
     ViewResultDoc.innerHTML = "...";
@@ -397,6 +410,10 @@ function Initialize() {
 
   ResetSelect();
   DevilNum = 0;
+
+  if (PlayTurnValue.includes('Second')) {
+    ThinkNumByCom();
+  }
 }
 
 function SelectNum(M, N, Num) {
